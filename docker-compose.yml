@@ -4,21 +4,37 @@ services:
         container_name: mongodb
         image: mongo:4.2.3
         ports: 
-            - "27017:27017"
+            - "${mongo_port}:${mongo_port}"
     mysqldb:
         container_name: mysqldb
         image: mysql:8.0.19  
         ports:
-            - "3306:3306"
+            - "${mysql_port}:${mysql_port}"
         environment: 
-            - MYSQL_USER=root
-            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     postgresdb:
         container_name: postgresdb
         image: postgres:9.6.17
         ports: 
-            - "5432:5432"
+            - "${postgres_port}:${postgres_port}"
         environment: 
-            - POSTGRES_USER=root
-            - POSTGRES_PASSWORD=root
-             
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    apptes:
+        container_name: apptes
+        image: node-image:1.0
+        ports: 
+            - "${port}:${port}"
+        depends_on: 
+            - mongodb
+            - mysqldb
+            - postgresdb
+        networks: 
+            - apptesnet
+networks: 
+    apptesnet:
+        name: apptesnet
+
+
+
