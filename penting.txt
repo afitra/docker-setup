@@ -1,0 +1,1 @@
+docker run -dit --restart always --name docker-nginx -p 80:80 nginx:1.17.10-alpine
